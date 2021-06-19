@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./Sidebar";
 import { IconContext } from "react-icons";
 import { useStateValue } from "./ContextAPI/StateProvider";
-import { auth } from "./Firebase/firebase";
 import { useHistory } from "react-router-dom";
 import "./navbar.css";
 
@@ -14,46 +13,19 @@ function Navbar() {
   const [navbar, setNavbar] = useState(false);
   const [burger, setBurger] = useState(false);
   const [{ user }] = useStateValue();
+  const [{ Admin }] = useStateValue();
+
   const history = useHistory();
 
-
-//   function redirect(){
-//     if (!user) {
-//      history.push("/login");
-//    } 
-//  }
-  
-
-// useEffect(() => {
-//  redirect()
-
-// }, [])
   const showSidebar = () => setSidebar(!sidebar);
 
   const showBurger = () => {
-    if (window.innerWidth <= 500) {
+    if (window.innerWidth <= 640) {
       setBurger(true);
     } else {
       setBurger(false);
     }
   };
-
-  // function theUserSignOut() {
-  //   const signedOut = auth.signOut();
-  //   if (signedOut) {
-  //     history.push("/login");
-  //   } else {
-  //     history.push("/login");
-  //   }
-  // }
-  // const out = " ";
-  // useEffect(() => {
-  //   showBurger();
-  //   theUserSignOut();
-  //   return () => {
-  //     // Unsubscribe();
-  //   };
-  // }, [out]);
 
   window.addEventListener("resize", showBurger);
 
@@ -70,12 +42,11 @@ function Navbar() {
   function signOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
+    localStorage.removeItem("Admin");
+
     window.location.reload();
-  history.push("/login");
-
+    history.push("/login");
   }
-
-  console.log(user);
 
   return (
     <>
@@ -95,34 +66,39 @@ function Navbar() {
             ""
           ) : (
             <div className="nav-menu">
-              <Link to="/">Home</Link>
-              <Link to="/postorder">Factorial</Link>
-              <Link to="/allorders"> Square root</Link>
-              <Link to="/UserOrders"> your Orders</Link>
-
-              <Link to="/results"> Results</Link>
-              <Link to="/login">{user?.email}</Link>
-              {!user ? (
-                 
-                <Link to="/login" onClick={signOut}>
-                  Login</Link>
+              {Admin ? (
+                <Link to="/allorders"> All Orders</Link>
               ) : (
-                <> 
-                 <p>{user}</p>
-                <Link to="/login" onClick={signOut}>
-                  Sign Out 
-                </Link>
+                <>
+                  <Link to="/">Home</Link>
+                  <Link to="/postorder">Post-Orders</Link>
+                  <Link to="/UserOrders"> View-Orders</Link>
                 </>
               )}
+
+              {/* <Link to="/results"> Results</Link> */}
+              <Link to="/login">{user?.email}</Link>
             </div>
           )}
-
           {burger ? (
             <Link to="/" className="logo">
-              <h3>CodeChallenge</h3>
+              <h3>Safe Courier</h3>
             </Link>
           ) : (
             ""
+          )}
+
+          {!user ? (
+            <Link to="/login" onClick={signOut}>
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" style={{ color: "black" }} onClick={signOut}>
+                <span>{user}</span>
+                <span>Sign Out</span>
+              </Link>
+            </>
           )}
         </div>
         <div className={sidebar ? "sidebar-menu active" : "sidebar-menu"}>
@@ -135,6 +111,8 @@ function Navbar() {
                 />
               </Link>
             </li>
+            <h2 style={{ color: "white" }}>{user}</h2>
+
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>

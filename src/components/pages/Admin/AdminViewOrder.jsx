@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {  baseUrl } from "../../../global/config";
+import { baseUrl } from "../../../global/config";
 import { useStateValue } from "../../ContextAPI/StateProvider";
-import { useHistory, Link, useParams } from "react-router-dom";
+import { useHistory,  useParams } from "react-router-dom";
 
 import "./../AllOrders.css";
 import axios from "axios";
 
-
 function AdminViewOrder() {
-    // const [name, setName] = useState("");
-  // const [question, setQuestion] = useState("");
   const [orders, setOrders] = useState("");
   const [pickUp, setPickUp] = useState("");
-  const [status, setStatus] = useState("");
 
   const history = useHistory();
 
@@ -22,147 +18,154 @@ function AdminViewOrder() {
   const [clicked, setClicked] = useState(false);
   const [clickDestination, setClickedDestination] = useState(false);
 
-  
-  
-  
-  console.log(Id);
-  
-  const redirect=()=>{
-  if (!user) {
-      history.push("/");
-    } 
-}
-// const data = {
-    //   name: name,
-  //   question: question,
-  //   answer: answer,
-  // };
-  
-  const OrderDataStatus = {
-    status: status,
-}
-const OrderDataPresentLocation = {
-  pickUp: pickUp,
-}
-  const config = {
-    headers:{
-      Authorization: localStorage.getItem('token')
-      // Authorization: localStorage.getItem('token')
+  const redirect = () => {
+    if (!user) {
+      history.push("/adminsignUp");
     }
-}
+  };
+
+  const OrderDataStatusOnroute = {
+    status: "On Route",
+  };
+  const OrderDataStatusDelivered = {
+    status: "Delivered",
+  };
+  const OrderDataPresentLocation = {
+    pickUp: pickUp,
+  };
+  const config = {
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
 
   useEffect(() => {
-    redirect()
+    redirect();
 
-    axios
-    .get(baseUrl + `/api/v1/parcel/${Id}`, config )
-    // .get("http://localhost:4000/api/v1/parcel")
-    // .then((response) => response.json())
-    .then((response) => {
-        setOrders(response.data)
-    })
-    .catch((error) => {
-      console.log(error);
+    axios.get(baseUrl + `/api/v1/parcel/${Id}`, config).then((response) => {
+      setOrders(response.data);
     });
-    
-  }, [clicked, clickDestination]);
-  
+    return () => {
+      setClickedDestination(false);
+    };
+  }, [clickDestination]);
+
   function pickUPHandler(e) {
     e.preventDefault();
-    setClickedDestination(false)
+    setClickedDestination(true);
 
     axios
-    .put(baseUrl + `/api/v1/parcel/${Id}/presentLocation`, OrderDataPresentLocation, config )
-      .then((response) => {
-        console.log(response.data);
-      })
+      .put(
+        baseUrl + `/api/v1/parcel/${Id}/presentLocation`,
+        OrderDataPresentLocation,
+        config
+      )
       .catch((error) => {
         console.log(error);
       });
   }
-  
-  function statusHandler(e) {
-      e.preventDefault();
-      setClickedDestination(false)
-      axios
-      .put(baseUrl + `/api/v1/parcel/${Id}/status`, OrderDataStatus, config )
-      .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
-    const info = orders;
-    
 
+  function statusHandlerOnRoute(e) {
+    e.preventDefault();
+    // setClickedDestination(false)
+    setClickedDestination(true);
+    // setStatus("On route");
+    axios
+      .put(
+        baseUrl + `/api/v1/parcel/${Id}/status`,
+        OrderDataStatusOnroute,
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  function statusHandlerDelivered(e) {
+    e.preventDefault();
+    // setClickedDestination(false)
+    setClickedDestination(true);
+    // setStatus("Delivered");
+    axios
+      .put(
+        baseUrl + `/api/v1/parcel/${Id}/status`,
+        OrderDataStatusDelivered,
+        config
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  const info = orders;
 
-    console.log(status,pickUp);
-    return (
-        <div className="main-section">
+  return (
+    <div className="main-section">
       <div className="main">.</div>
       <div className="title">
-        <h1>Users your Order</h1>
+        <h1>Users Order</h1>
       </div>
-
-      {/* <div className="">
-      {[...info].map(item =>(
-          <div className="" key={item._id}>
-          <p>name: {item.parcelName}</p>
-          <p>pickUp: {item.pickUp}</p>
-          <p>destination: {item.destination}</p>
-          <p>status: {item.status}</p>
-          <p>Order Cancelled: {!item.isCancelled?"No":"Yes"}</p>
+      {info ? (
+        <div className="">
+          {[...info].map((item) => (
+            <div className="" key={item._id}>
+              <p>User Name: {item.user.name}</p>
+              <p>Parcel Name: {item.parcelName}</p>
+              <p>pickUp: {item.pickUp}</p>
+              <p>destination: {item.destination}</p>
+              <p>status: {item.status}</p>
+              <p>Order Cancelled: {!item.isCancelled ? "No" : "Yes"}</p>
+            </div>
+          ))}
         </div>
-      ))}
-      </div> */}
-       <div className="">
-      {[...info].map(item =>(
-        <div className="" key={item._id}>
-          <p>name: {item.parcelName}</p>
-          <p>pickUp: {item.pickUp}</p>
-          <p>destination: {item.destination}</p>
-          <p>status: {item.status}</p>
-          <p>Order Cancelled: {!item.isCancelled?"No":"Yes"}</p>
-        </div>
-      ))}
-      </div>
+      ) : (
+        <h3>PLEASE WAIT LOADING......</h3>
+      )}
 
       <div className="">
-        {!info ? "" : <button type="submit" onClick={()=>setClickedDestination(true)}>Change Status</button>}
-        {!info ? "" : <button type="submit" onClick={()=>setClickedDestination(true)}>Change Present Location</button>}
+        {!info ? (
+          ""
+        ) : (
+          <button type="submit" onClick={() => setClicked(true)}>
+            Make Adjustments
+          </button>
+        )}
+        {/* {!info ? "" : <button type="submit" onClick={()=>setClickedDestination(false)}>Change Present Location</button>} */}
 
-       {clickDestination?(
-       <form action="">
-        
-         <div className="">
-        <input type="text"
+        {clicked ? (
+          <form action="">
+            <div className="">
+              {/* <input type="text"
                 placeholder="Change status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                />
-        <button type="submit" onClick={statusHandler}>Change </button>
-
-         </div>
-         <div className="">
-           <input type="text"
-        placeholder="Change Present Location"
-        value={pickUp}
-        onChange={(e) => setPickUp(e.target.value)}
-         />
-        <button type="submit" onClick={pickUPHandler}>Change  </button>
-         </div>
-
-         
-        </form>):""} 
+                /> */}
+              <h4>Change status</h4>
+              <button type="submit" onClick={statusHandlerOnRoute}>
+                On Route
+              </button>
+              <button type="submit" onClick={statusHandlerDelivered}>
+                Delivered
+              </button>
+            </div>
+            <div className="">
+              <input
+                type="text"
+                placeholder="Change Present Location"
+                value={pickUp}
+                onChange={(e) => setPickUp(e.target.value)}
+              />
+              <button type="submit" onClick={pickUPHandler}>
+                Change location
+              </button>
+            </div>
+          </form>
+        ) : (
+          ""
+        )}
       </div>
 
-      <h3>Press the reset button to restart the calculation</h3>
-
-      <div className="page-results">
-      </div>
+      <div className="page-results"></div>
     </div>
   );
 }
 
-export default AdminViewOrder
+export default AdminViewOrder;
