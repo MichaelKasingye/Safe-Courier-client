@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import {  baseUrl } from "../../global/config";
+import {  baseUrl } from "../../../global/config";
 
 import axios from "axios";
 
 // import { auth } from "../Firebase/firebase";
-import "./loginPage.css";
+import "../loginPage.css";
 function LoginPage() {
   const history = useHistory();
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ function LoginPage() {
       .post(baseUrl + "/api/v1/auth/login", loginData)
       .then((response) => {
         console.log(response.data);
-        history.push("/");
+        history.push("/allorders");
         localStorage.setItem('token', response.data.acessToken);
         localStorage.setItem("name", name);
         window.location.reload();
@@ -56,7 +56,7 @@ function LoginPage() {
         localStorage.setItem('token', response.data.acessToken);
         localStorage.setItem("name", name);
 
-        history.push("/");
+        history.push("/allorders");
         window.location.reload();
 
       })
@@ -73,7 +73,7 @@ function LoginPage() {
       <div className="login">
         <Link to="/"></Link>
         <div className="login_container">
-        {press?<h1>Sign in</h1>:<h1>Create Account</h1>}
+        {press?<h1>Admin Login</h1>:<h1>Create Admin Account</h1>}
           
           <form>
           <h5>Name</h5>
