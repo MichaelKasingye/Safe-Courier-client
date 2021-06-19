@@ -1,5 +1,5 @@
 import React from 'react'
-import * as FaIcons from "react-icons/fa";
+import * as RiIcons from "react-icons/ri";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 
@@ -7,13 +7,13 @@ export const SidebarData = [
     {
         title: 'Home',
         path: '/',
-        icon: <IoIcons.IoIosPaper className="icon"/>,
+        icon: <AiIcons.AiFillHome className="icon"/>,
         cName: 'sidebar-text'
     },
     {
         title: 'Make an order',
         path: '/postorder',
-        icon: <AiIcons.AiFillHome className="icon"/>,
+        icon: <RiIcons.RiHandCoinFill className="icon"/>,
         cName: 'sidebar-text'
     },
     {
@@ -23,15 +23,9 @@ export const SidebarData = [
         cName: 'sidebar-text'
     },
     {
-        title: 'Results',
-        path: '/results',
-        icon: <FaIcons.FaCartPlus className="icon"/>,
-        cName: 'sidebar-text'
-    },
-    {
         title: 'Login',
         path: '/login',
-        icon: <IoIcons.IoMdPeople className="icon"/>,
+        icon: <RiIcons.RiLoginBoxLine className="icon"/>,
         cName: 'sidebar-text'
     },
     {

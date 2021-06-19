@@ -10,14 +10,11 @@ function Results() {
       .then((response) => {
         setRoots(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+     
   }, []);
   const data = roots;
   return (
     <div className="Results">
-      {console.log(data)}
       <div>.</div>
       <div className="title">
         <h1>Results</h1>
