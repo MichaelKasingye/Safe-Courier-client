@@ -1,6 +1,8 @@
 
 export const initialState = {
     user: localStorage.getItem('name'),
+    Admin: localStorage.getItem('Admin'),
+
 
 };
 
