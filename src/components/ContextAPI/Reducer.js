@@ -1,5 +1,7 @@
+
 export const initialState = {
-    user: null,
+    user: localStorage.getItem('name'),
+
 };
 
  function reducer(state,action){

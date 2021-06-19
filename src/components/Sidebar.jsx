@@ -11,14 +11,14 @@ export const SidebarData = [
         cName: 'sidebar-text'
     },
     {
-        title: 'Factorial',
-        path: '/factorial',
+        title: 'Make an order',
+        path: '/postorder',
         icon: <AiIcons.AiFillHome className="icon"/>,
         cName: 'sidebar-text'
     },
     {
-        title: 'Square root',
-        path: '/squareroot',
+        title: 'All Orders',
+        path: '/allorders',
         icon: <IoIcons.IoIosPaper className="icon"/>,
         cName: 'sidebar-text'
     },
