@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../Firebase/firebase";
+import { useStateValue } from "../ContextAPI/StateProvider";
+// import {user} from "../../global/user"
+
+
+import axios from "axios";
 
 function Home() {
-  const signedOut = auth.signOut();
+  const [{ user }] = useStateValue();
+
+
+ 
+
   return (
     <div className="home">
-      <h1>Code Challenge</h1>
+      <h1>Safe Courier</h1>
 
-      {!signedOut ? (
+      {!user ? (
+        <div className="">
         <button>
           <Link style={{ color: "white" }} to="/login">
-            Sign Up
+            SIGN UP
           </Link>
         </button>
+        <button>
+          <Link style={{ color: "white" }} to="/login">
+            LOGIN
+          </Link>
+        </button>
+        </div>
       ) : (
         <div>
-          <h4>Wellcome</h4>
+          <h4>Wellcome {user}</h4>
           <p style={{ fontSize: "1.5rem" }}>
             View more of the site from the links above
           </p>
