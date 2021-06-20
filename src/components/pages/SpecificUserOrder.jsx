@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../global/config";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import { useHistory, Link } from "react-router-dom";
+import Table from '../Table/UserTable';
 
 import "./AllOrders.css";
 import axios from "axios";
@@ -52,30 +53,51 @@ function SpecificOrder() {
 
   return (
     <div className="main-section">
-      <div className="main">.</div>
-      <div className="title">
+      <div className="title-table">
         <h1>Your Orders</h1>
       </div>
-      {info ? (
-        <div className="">
-          {[...info].map((item) => (
-            <div className="" key={item._id}>
-              <Link to={`/viewOrder/${item._id}`}>
-                <p>name: {item.parcelName}</p>
-                <p>pickUp: {item.pickUp}</p>
-                <p>destination: {item.destination}</p>
-                <p>status: {item.status}</p>
-                <p>Order Cancelled: {!item.isCancelled ? "No" : "Yes"}</p>
-                <p>view order</p>
-              </Link>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <h3>Loadinging data..... Please wait</h3>
-      )}
+    <div className="table">
+              {info ? ( 
+                 <table>
+          <thead>
+            <tr>
+              <th>Parcel Name</th>
+              <th>Pick Up</th>
+              <th>Destination</th>
+              <th>Status</th>
+              <th>Cancelled</th>
+            </tr>
+          </thead>
+          <tbody>
+           {[...info].map((item) => (
+             <Table
+             key = {item._id}
+             link = {item._id}
+             parcelName = {item.parcelName}
+             pickUp = {item.pickUp}
+             destination = {item.destination}
+             status = {item.status}
+             isCancelled = {!item.isCancelled ? "No" : "Yes"}
+             changes = "Edit"
+             />
+             ))} 
+       </tbody>
+        </table>
+        ):(
+          <h3>Loadinging data..... Please wait</h3>
+        )}
+        
+        
 
+
+        <button>
+            <Link style={{ color: "white" }} to="/postorder">
+              Post an Order
+            </Link>
+          </button>
+          </div>
       <div className="page-results"></div>
+      
     </div>
   );
 }

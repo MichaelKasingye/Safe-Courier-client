@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../../global/config";
 import { useStateValue } from "../../ContextAPI/StateProvider";
-import { useHistory,  useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import Card from "../../Card/Card";
 
 import "./../AllOrders.css";
 import axios from "axios";
@@ -54,46 +55,30 @@ function AdminViewOrder() {
     e.preventDefault();
     setClickedDestination(true);
 
-    axios
-      .put(
-        baseUrl + `/api/v1/parcel/${Id}/presentLocation`,
-        OrderDataPresentLocation,
-        config
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.put(
+      baseUrl + `/api/v1/parcel/${Id}/presentLocation`,
+      OrderDataPresentLocation,
+      config
+    );
   }
 
   function statusHandlerOnRoute(e) {
     e.preventDefault();
-    // setClickedDestination(false)
     setClickedDestination(true);
-    // setStatus("On route");
-    axios
-      .put(
-        baseUrl + `/api/v1/parcel/${Id}/status`,
-        OrderDataStatusOnroute,
-        config
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.put(
+      baseUrl + `/api/v1/parcel/${Id}/status`,
+      OrderDataStatusOnroute,
+      config
+    );
   }
   function statusHandlerDelivered(e) {
     e.preventDefault();
-    // setClickedDestination(false)
     setClickedDestination(true);
-    // setStatus("Delivered");
-    axios
-      .put(
-        baseUrl + `/api/v1/parcel/${Id}/status`,
-        OrderDataStatusDelivered,
-        config
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+    axios.put(
+      baseUrl + `/api/v1/parcel/${Id}/status`,
+      OrderDataStatusDelivered,
+      config
+    );
   }
   const info = orders;
 
@@ -103,21 +88,24 @@ function AdminViewOrder() {
       <div className="title">
         <h1>Users Order</h1>
       </div>
+
       {info ? (
-        <div className="">
+        <>
           {[...info].map((item) => (
-            <div className="" key={item._id}>
-              <p>User Name: {item.user.name}</p>
-              <p>Parcel Name: {item.parcelName}</p>
-              <p>pickUp: {item.pickUp}</p>
-              <p>destination: {item.destination}</p>
-              <p>status: {item.status}</p>
-              <p>Order Cancelled: {!item.isCancelled ? "No" : "Yes"}</p>
-            </div>
+            <Card
+              key={item._id}
+              id={item._id}
+              userName={item.user.name}
+              parcelName={item.parcelName}
+              pickUp={item.pickUp}
+              destination={item.destination}
+              status={item.status}
+              isCancelled={!item.isCancelled ? "No" : "Yes"}
+            />
           ))}
-        </div>
+        </>
       ) : (
-        <h3>PLEASE WAIT LOADING......</h3>
+        <h4>Loading Data.... Please wait.....</h4>
       )}
 
       <div className="">
@@ -128,16 +116,10 @@ function AdminViewOrder() {
             Make Adjustments
           </button>
         )}
-        {/* {!info ? "" : <button type="submit" onClick={()=>setClickedDestination(false)}>Change Present Location</button>} */}
 
         {clicked ? (
-          <form action="">
-            <div className="">
-              {/* <input type="text"
-                placeholder="Change status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                /> */}
+          <form className="adiust-form">
+            <div className="adjust">
               <h4>Change status</h4>
               <button type="submit" onClick={statusHandlerOnRoute}>
                 On Route
@@ -146,7 +128,7 @@ function AdminViewOrder() {
                 Delivered
               </button>
             </div>
-            <div className="">
+            <div className="adjust-location">
               <input
                 type="text"
                 placeholder="Change Present Location"
