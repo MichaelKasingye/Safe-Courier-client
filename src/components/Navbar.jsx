@@ -45,7 +45,7 @@ function Navbar() {
     localStorage.removeItem("Admin");
 
     window.location.reload();
-    history.push("/login");
+    history.push("/");
   }
 
   return (
@@ -76,7 +76,6 @@ function Navbar() {
                 </>
               )}
 
-              {/* <Link to="/results"> Results</Link> */}
               <Link to="/login">{user?.email}</Link>
             </div>
           )}
@@ -89,12 +88,12 @@ function Navbar() {
           )}
 
           {!user ? (
-            <Link to="/login" onClick={signOut}>
+            <Link to="/" onClick={signOut}>
               Login
             </Link>
           ) : (
             <>
-              <Link to="/login" style={{ color: "black" }} onClick={signOut}>
+              <Link to="/" style={{ color: "black" }} onClick={signOut}>
                 <span>{user}</span>
                 <span>Sign Out</span>
               </Link>
