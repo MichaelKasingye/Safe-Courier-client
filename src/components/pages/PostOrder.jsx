@@ -7,9 +7,9 @@ import { baseUrl } from "../../global/config";
 import axios from "axios";
 
 function PostOrders() {
-  const [parcelName, setParcelName] = useState("");
-  const [pickUp, setPickUp] = useState("");
-  const [destination, setDestination] = useState("");
+  const [parcelName, setParcelName] = useState(" ");
+  const [pickUp, setPickUp] = useState(" ");
+  const [destination, setDestination] = useState(" ");
   const [feedback, setFeedback] = useState("");
   const [pressed, setPressed] = useState(false);
 
@@ -79,9 +79,7 @@ function PostOrders() {
           onChange={(e) => setDestination(e.target.value)}
         />
       </form>
-      {!parcelName || !pickUp || !destination ? (
-        ""
-      ) : (
+     
         <>
           <button type="submit" onClick={submitHandlerSend}>
             Send Order
@@ -90,7 +88,6 @@ function PostOrders() {
             Show Order
           </button>
         </>
-      )}
       {feedback ? <h3>Order sent </h3> : <h3>Press send to make Order</h3>}
       {pressed && !feedback ? <h3> Sending Order</h3> : ""}
     </div>
