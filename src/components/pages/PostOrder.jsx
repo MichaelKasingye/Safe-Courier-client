@@ -60,21 +60,21 @@ function PostOrders() {
         <label>Parcel Name</label>
         <input
           type="text"
-          placeholder="Enter Parcel name"
+          placeholder="eg. 2kgs of rice"
           value={parcelName}
           onChange={(e) => setParcelName(e.target.value)}
         />
         <label>Pick up Locaton</label>
         <input
           type="text"
-          placeholder="Enter Location"
+          placeholder="eg. Ntinda"
           value={pickUp}
           onChange={(e) => setPickUp(e.target.value)}
         />
         <label>Parcel Destination</label>
         <input
           type="text"
-          placeholder="Enter destination"
+          placeholder="eg. kira"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
         />
