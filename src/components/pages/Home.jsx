@@ -5,6 +5,7 @@ import { useStateValue } from "../ContextAPI/StateProvider";
 
 function Home() {
   const [{ user }] = useStateValue();
+  const [{ Admin }] = useStateValue();
 
   return (
     <div className="home">
@@ -25,6 +26,20 @@ function Home() {
         </div>
       ) : (
         <div>
+          {Admin?
+          <>
+          <h4>Wellcome Admin {user}</h4>
+          <p style={{ fontSize: "1.5rem" }}>
+            Click the button below to view all users Orders
+          </p>
+          <button>
+            <Link style={{ color: "white" }} to="/allorders">
+              View all Orders
+            </Link>
+          </button>
+          </>
+          :
+          <>
           <h4>Wellcome {user}</h4>
           <p style={{ fontSize: "1.5rem" }}>
             Click the button below to post an Order
@@ -34,6 +49,9 @@ function Home() {
               Post an Order
             </Link>
           </button>
+          </>
+          }
+          
         </div>
       )}
     </div>

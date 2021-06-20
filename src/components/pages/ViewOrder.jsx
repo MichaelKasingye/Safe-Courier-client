@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../global/config";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import { useHistory, useParams } from "react-router-dom";
-
+import Card from "../Card/AdminCard"
 import "./AllOrders.css";
 import axios from "axios";
 
@@ -79,54 +79,61 @@ function ViewOrder() {
         <h1>View your Order</h1>
       </div>
       {info?
-      <div className="">
+      <>
         {[...info].map((item) => (
-          <div className="" key={item._id}>
-            <p>name: {item.parcelName}</p>
-            <p>pickUp: {item.pickUp}</p>
-            <p>destination: {item.destination}</p>
-            <p>status: {item.status}</p>
-            <p>Order Cancelled: {!item.isCancelled ? "No" : "Yes"}</p>
-          </div>
+          <Card
+          key = {item._id}
+          id ={item._id}
+          parcelName = {item.parcelName}
+          pickUp = {item.pickUp}
+          destination = {item.destination}
+          status = {item.status}
+          isCancelled = {!item.isCancelled ? "No" : "Yes"}
+          />
         ))}
-      </div>
+      </>
       :  <h4>Loading Data.... Please wait.....</h4> }
       
 
       <div className="">
         {!info ? (
           ""
-        ) : (
-          <button type="submit" onClick={cancelHandler}>
+          ) : (
+            <button type="submit" onClick={cancelHandler}>
             Cancel Order
           </button>
         )}
         {!info ? (
           ""
-        ) : (
+          ) : (
+            <div className="">
           <button type="submit" onClick={() => setClicked(true)}>
             Change Destination
           </button>
+          <button type="submit" onClick={() => history.push("/UserOrders")}>
+          View Orders
+        </button>
+        </div>
         )}
 
-        {clicked &&
-          <form action="">
-            <input
-              type="text"
-              placeholder="Change location"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-            {destination &&
-            <button type="submit" onClick={destinationHandler}>
-              Change
-            </button>}
-            
-          </form>
-       }
       </div>
 
-      <div className="page-results"></div>
+      {clicked &&
+        <form className="change">
+          <input
+            type="text"
+            placeholder="Change location"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+          />
+          {destination &&
+          <button type="submit" onClick={destinationHandler}>
+            Change
+          </button>}
+          
+        </form>
+     }
+
     </div>
   );
 }

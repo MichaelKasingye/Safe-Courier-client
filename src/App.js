@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./components/pages/Home";
-import Results from "./components/pages/Results";
 import AllOrders from "./components/pages/Admin/AllOrders";
 import UserOrders from "./components/pages/SpecificUserOrder";
 import ViewOrder from "./components/pages/ViewOrder";
@@ -35,7 +34,6 @@ function App() {
 
 
           <Route path="/postorder" component={PostOrder} />
-          <Route path="/results" component={Results} />
         </Switch>
       </Router>
     </div>

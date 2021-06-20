@@ -1,6 +1,6 @@
 .navbar {
   position: fixed;
-  background: transparent;
+  background: #EAEDED;
   height: 80px;
   display: flex;
   justify-content: space-evenly;
@@ -52,12 +52,7 @@
 .nav-input input:focus {
   outline: none;
 }
-.nav-search {
-  margin: 0px 5px;
-  color: #d35400;
-  font-size: 4px;
-  font-weight: 100;
-}
+
 .nav-menu a {
   margin: 0.2rem;
   color: #060b26;
@@ -65,18 +60,6 @@
 .nav-cart {
   color: #060b26;
   display: flex;
-}
-.cart-number {
-  position: relative;
-  margin: 0;
-  right: 0.3rem;
-  bottom: 0.8rem;
-  border-radius: 1rem;
-  background-color: black;
-  color: #f5f5f5;
-  padding: 2px;
-  height: 1.3rem;
-  width: 0.9rem;
 }
 
 .nav-menu-items {
